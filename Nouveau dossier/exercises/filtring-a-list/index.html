@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        min-height: 100vh;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      div {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        padding: 1rem;
+        background-color: aliceblue;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      li {
+        list-style: none;
+        padding: 0.5rem;
+        border-bottom: 1px solid #ccc;
+      }
+
+      li:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <input
+        type="text"
+        id="filterInput"
+        placeholder="Filter items..."
+        title="filter items"
+      />
+      <ul id="itemList">
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Cherry</li>
+        <li>Date</li>
+        <li>Elderberry</li>
+      </ul>
+    </div>
+
+    <script>
+      const input = document.querySelector("#filterInput");
+      const list = document.querySelector("#itemList");
+
+      // get the original items values from the list
+      // ... is the spread operator (ES6)
+      const originalItemsValues = [...list.querySelectorAll("li")].map(
+        function (item) {
+          return item.textContent;
+        }
+      );
+
+      // listen for input events on input
+      input.addEventListener("input", function (e) {
+        // get the value of the input
+        const value = e.target.value.toLowerCase();
+
+        // filter the original items
+        const filteredItems = originalItemsValues.filter(function (item) {
+          return item.toLowerCase().includes(value);
+        });
+
+        // clear the list
+        list.innerHTML = "";
+
+        // add the filtered items to the list
+        filteredItems.forEach(function (item) {
+          const li = document.createElement("li");
+          li.textContent = item;
+
+          // add a transition effect
+          li.style.opacity = 0;
+          li.style.transition = "opacity 0.5s ease-in-out";
+          setTimeout(function () {
+            li.style.opacity = 1;
+          }, 0);
+          // end of transition effect
+
+          list.appendChild(li);
+        });
+      });
+    </script>
+  </body>
+</html>

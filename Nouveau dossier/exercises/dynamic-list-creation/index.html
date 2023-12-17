@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        display: flex;
+        min-height: 100vh;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      div {
+        width: 100%;
+        max-width: 500px;
+        margin: auto;
+        padding: 1rem;
+        background-color: aliceblue;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      button {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      li {
+        list-style: none;
+        padding: 0.5rem;
+        border-bottom: 1px solid #ccc;
+      }
+
+      li:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button id="addItem">Add Item</button>
+      <ul id="itemList"></ul>
+    </div>
+
+    <script>
+      const items = ["Apple", "Banana", "Cherry"];
+
+      const itemList = document.getElementById("itemList");
+
+      const addItem = document.getElementById("addItem");
+
+      // Add the items to the list
+      items.forEach((item) => {
+        const li = document.createElement("li");
+        li.innerText = item;
+
+        appendChildWithAnimation(itemList, li);
+      });
+
+      // add click event listener to the button
+      addItem.addEventListener("click", () => {
+        const li = document.createElement("li");
+        li.innerText = "New Item";
+
+        appendChildWithAnimation(itemList, li);
+      });
+
+      /**
+       * This is a helper function
+       * Appends a child to a parent with a fade-in animation
+       * @param {HTMLElement} parent
+       * @param {HTMLElement} child
+       */
+      function appendChildWithAnimation(parent, child) {
+        child.style.opacity = 0;
+        child.style.transition = "opacity 0.3s ease-in-out";
+        setTimeout(() => {
+          child.style.opacity = 1;
+        }, 100);
+        parent.appendChild(child);
+      }
+    </script>
+  </body>
+</html>
