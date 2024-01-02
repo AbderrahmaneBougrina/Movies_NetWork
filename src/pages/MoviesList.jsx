@@ -1,17 +1,13 @@
 import { Link } from "react-router-dom";
 import { Back } from "./Header";
-import { Title } from "./Header";
-import { useEffect, useState } from "react";
-import LinkSignup from "./Header";
-import { LinkLogin } from "./Header";
+import { useState, useEffect } from "react";
 
-function Mylist() {
+function MoviesList() {
   const [search, setSearch] = useState("");
   const [pay, setPay] = useState([]);
   const [menu, setMenu] = useState();
   const [hide, setHide] = useState();
   const [favori, setFavori] = useState();
-  const [genre, setGenre] = useState([]);
 
   useEffect(function () {
     fetch("https://yts.mx/api/v2/list_movies.json").then(function (res) {
@@ -24,7 +20,10 @@ function Mylist() {
   }, []);
 
   return (
-    <main className=" flex flex-col bg-black  relative bg-no-repeat bg-cover min-h-screen min-w-full  ">
+    <main
+      className=" flex flex-col bg-black  relative 
+     bg-no-repeat bg-cover min-h-screen min-w-full  "
+    >
       <header className=" h-20 w-full bg-[#333] flex items-center justify-center ">
         <div className="relative flex items-center justify-star w-[25%] ml-3 ">
           <img
@@ -36,7 +35,7 @@ function Mylist() {
         </div>
         <div className=" w-[50%] flex items-center justify-center">
           <h1 className=" px-3 text-4xl text-yellow-400 font-semibold font-serif bg-gradient-to-br from-slate-900 to-yellow-500 text-transparent bg-clip-text ">
-            My List
+            Movies List
           </h1>
         </div>
         <div className=" w-[25%] flex items-center justify-end mr-3 ">
@@ -72,6 +71,7 @@ function Mylist() {
               alt=""
             />
           </div>
+
           <div className="flex flex-col items-center gap-2  w-full ">
             <ul className=" w-full flex flex-col items-center">
               <li className="                w-full  py-4 text-[22px] text-gray-500 hover:text-white font-semibold mb-1 rounded-lg  text-center  ">
@@ -95,9 +95,9 @@ function Mylist() {
                   Home
                 </Link>
               </li>
-              <li className="w-full py-4 text-[22px] text-gray-500                  hover:text-white font-semibold mb-1 rounded-lg  text-center">
+              <li className="      bg-yellow-500      text-white                               text-[22px] w-full  py-4 hover:text-white font-semibold mb-1 rounded-lg  text-center">
                 <Link
-                  to="/MoviesList"
+                  to=""
                   className="flex
                  items-center justify-star ml-[35%]  gap-4 cursor-pointer"
                 >
@@ -105,9 +105,9 @@ function Mylist() {
                   Movies List
                 </Link>
               </li>
-              <li className=" bg-yellow-500  w-full  py-4 text-[22px] text-white                    hover:text-white font-semibold mb-1 rounded-lg  text-center">
-                <a
-                  to=""
+              <li className="            text-gray-500       text-[22px]  w-full  py-4 hover:text-white font-semibold mb-1 rounded-lg  text-center">
+                <Link
+                  to="/Mylist"
                   className="flex cursor-pointer
                  items-center justify-star ml-[35%]  gap-4"
                 >
@@ -118,7 +118,7 @@ function Mylist() {
                     alt=""
                   />{" "}
                   My List
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -128,6 +128,40 @@ function Mylist() {
       ) : (
         <aside className=" 0px"></aside>
       )}
+      <div className=" w-full h-28 flex items-center justify-center">
+        <div className="flex flex-col w-[70%] h-full justify-center">
+          <label htmlFor="" className="text-white">
+            Filter by genre:
+          </label>
+          <select onChange={() => {}} className=" w-full h-10 rounded-lg">
+            <option value="All">All</option>
+            <option value="Action">Action</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Animation">Animation</option>
+            <option value="Biography">Biography</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Crime">Crime</option>
+            <option value="Documentary">Documentary</option>
+            <option value="Drama">Drama</option>
+            <option value="Family">Family</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Film Noir">Film Noir</option>
+            <option value="History">History</option>
+            <option value="Horror">Horror</option>
+            <option value="Music">Music</option>
+            <option value="Musical">Musical</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Romance">Romance</option>
+            <option value="Sci_Fi">Sci_Fi</option>
+            <option value="Short Film">Short Film</option>
+            <option value="Sport">Sport</option>
+            <option value="Superhero">Superhero</option>
+            <option value="Thriller">Thriller</option>
+            <option value="War">War</option>
+            <option value="Western">Western</option>
+          </select>
+        </div>
+      </div>
 
       <section className=" w-full flex justify-center flex-wrap px-2">
         {pay.map((movie, i) => {
@@ -140,8 +174,8 @@ function Mylist() {
                 <div className=" w-full h-[60%]">
                   <img
                     src={movie.medium_cover_image}
-                    alt="photo of movie"
-                    className=" h-full w-full  text-gray-500 flex items-center justify-center"
+                    alt=""
+                    className=" h-full w-full"
                   />
                 </div>
 
@@ -152,13 +186,9 @@ function Mylist() {
                     </h1>
                   </div>
                   <div className=" w-full h[25%] flex items-center px-3 flex-wrap gap-2 justify-center">
-                    {genre.map((movie, i) => {
-                      return (
-                        <p className=" bg-[#333] px-2 py-1 rounded-lg">
-                          {movie.genres}
-                        </p>
-                      );
-                    })}
+                    <p className=" bg-[#333] px-2 py-1 rounded-lg">
+                      {movie.genres && Object.values(movie.genres)[1]}
+                    </p>
                   </div>
                   <div className="flex items-center justify-between  w-full h-[25%]  mt-1">
                     <Link
@@ -190,7 +220,9 @@ function Mylist() {
           );
         })}
       </section>
+
+      {/*   */}
     </main>
   );
 }
-export default Mylist;
+export default MoviesList;

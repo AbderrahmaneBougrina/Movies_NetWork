@@ -2,9 +2,17 @@ import { Link } from "react-router-dom";
 import { Back } from "./Header";
 import { Title } from "./Header";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import Signup from "./Signup";
 
-function Login() {
+function Login({ user, setUser, session, setSession }) {
   const [show, setShow] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  if (user && session) {
+    return <Navigate to="/Home" />;
+  }
 
   return (
     <main className="bg-[url('/src/images/WallpaperDog-20493501.jpg')] bg-no-repeat bg-cover min-h-screen min-w-full font-semibold font-serif flex flex-col">
@@ -15,7 +23,7 @@ function Login() {
             src="/src/images/back.png"
             alt=""
           />
-          <Back />
+          <Back to="/" />
         </div>
         <div className="w-[50%] flex items-center justify-end mr-3">
           <Title />
@@ -24,11 +32,7 @@ function Login() {
       <article
         className="flex flex-col items-center justify-center m-auto w-2/5 h-[600px] rounded-3xl overflow-hidden bg-transparent relative before:bg-gradient-to-r from-[#333e] via-yellow-400 to-yellow-400 before:absolute 
            before:w-[60%]  before:h-[600px]  before:top-[-50%] before:left-[-50%]   
-             before:animate-spin before:origin-bottom-right 
-
-    
-             
-          "
+             before:animate-spin before:origin-bottom-right "
       >
         <div className="flex flex-col w-[99%] h-[99%] items-center ring-transparent  absolute bg-[#333] rounded-[22px]">
           <div className=" h-[15%] flex flex-col w-full justify-around items-center ">
@@ -38,12 +42,38 @@ function Login() {
             <p className="text-[22px] mb-[-35px] text-white">LOG IN</p>
           </div>
           <div className=" h-[75%] flex items-center w-full justify-center">
-            <form className="flex flex-col w-[96%] items-center">
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+
+                console.log("submit");
+
+                const res = await fetch("http://localhost:3000/login", {
+                  headers: {
+                    "content-type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    email,
+                    password,
+                  }),
+                  method: "POST",
+                });
+
+                const json = await res.json();
+
+                <Signup setUser="setUser" setSession="setSession" />;
+              }}
+              className="flex flex-col w-[96%] items-center"
+            >
               <label className=" self-start px-8 flex gap-1  text-white">
                 <img className="h-[18px]" src="/src/images/email.png" alt="" />{" "}
                 E-mail
               </label>
               <input
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                value={email}
                 className="w-[94%] bg-slate-200 h-10 rounded-3xl px-8 mb-3  shadow shadow-gray-200 "
                 type="email"
                 placeholder="Enter Your Email"
@@ -59,6 +89,10 @@ function Login() {
               </label>
               <div className="relative w-full flex items-center justify-center">
                 <input
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
                   className="w-[94%] bg-slate-200 h-10 rounded-3xl px-10 mb-3  shadow shadow-gray-200 "
                   type={show ? "password" : "text"}
                   placeholder="password"

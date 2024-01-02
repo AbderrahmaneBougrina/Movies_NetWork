@@ -22,11 +22,12 @@ function LinkSignup() {
 }
 export default LinkSignup;
 
-export function Back() {
+export function Back(props) {
   return (
     <Link
       className="font-sans font-black px-8 py-2 border-2 border-yellow-400 rounded-xl text-yellow-400 hover:bg-yellow-400 hover:text-[#333] transition-all  "
-      to="/"
+      to="/Home"
+      {...props}
     >
       Back
     </Link>
